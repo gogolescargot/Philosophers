@@ -70,10 +70,11 @@ void	*life(void *arg)
 	{
 		take_fork(philo);
 		eat(philo);
-		if (philo->data->time_to_eat >= philo->data->time_to_sleep
-			&& philo->id % 2 != 0 && philo->data->nbr_philos % 2 != 0)
+		if (philo->data->time_to_eat >= philo->data->time_to_sleep)
+		{
 			usleep((philo->data->time_to_eat
 					- philo->data->time_to_sleep + 1) * 1000);
+		}
 	}
 	return (NULL);
 }
