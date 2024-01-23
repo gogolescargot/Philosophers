@@ -28,21 +28,31 @@ NAME_B	=
 
 LIBFT	=	$(LIBFT_DIR)libft.a
 
-SRCS	=	philosophers.c init.c life.c monitor.c utils.c
+FILE_C	=	philosophers init life monitor update utils
 
-SRCS_B	=	
+FILE_H	=	philosophers
 
-OBJS	=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
+FILE_BC	=
 
-OBJS_B	=	$(addprefix $(OBJS_DIR), $(SRCS_B:.c=.o))
+FILE_BH	=
 
-INCL	=	$(INCL_DIR)philosophers.h
+SRCS	=	$(addsuffix .c, $(addprefix $(SRCS_DIR), $(FILE_C)))
+
+SRCS_B	=	$(addsuffix .c, $(addprefix $(SRCS_DIR), $(FILE_BC)))
+
+OBJS	=	$(addsuffix .o, $(addprefix $(OBJS_DIR), $(FILE_C)))
+
+OBJS_B	=	$(addsuffix .o, $(addprefix $(OBJS_DIR), $(FILE_BC)))
+
+INCL	=	$(addsuffix .h, $(addprefix $(INCL_DIR), $(FILE_H)))
+
+INCL_B	=	$(addsuffix .h, $(addprefix $(INCL_DIR), $(FILE_BH)))
 
 # COMMANDS =====================================================================
 
 CC			=	cc
 
-CC_FLAGS	=	-Wall -Wextra -Werror
+CC_FLAGS	=	-Wall -Wextra -Werror -pthread
 
 AR			=	ar
 
@@ -53,29 +63,26 @@ NORM		=	norminette.exe $(SRCS_DIR) $(INCL_DIR)
 # RULES ========================================================================
 
 all:
-	@echo "\n${BIBlue}Checking Norminette...${NC}"
-	@$(NORM) | grep -q Error && $(NORM) | grep Error || echo "\n${BIGreen}Norminette OK !${NC}"
-	@mkdir -p $(OBJS_DIR)
-	@echo "\n${BIBlue}Compilation of project source files...${NC}"
-	@$(MAKE) --no-print-directory $(NAME)
-	@echo "\n${BIGreen}Project Ready !${NC}\n"
+	@ echo "\n${BIBlue}Checking Norminette...${NC}"
+	@ $(NORM) | grep -q Error && $(NORM) | grep Error || echo "\n${BIGreen}Norminette OK !${NC}"
+	@ mkdir -p $(OBJS_DIR)
+	@ echo "\n${BIBlue}Compilation of project source files...${NC}"
+	@ $(MAKE) --no-print-directory $(NAME)
+	@ echo "\n${BIGreen}Project Ready !${NC}\n"
 
 $(NAME): $(OBJS)
-	@echo "\n${BICyan}Creating the executable...${NC}"
+	@ echo "\n${BICyan}Creating the executable...${NC}"
 	$(CC) $(CC_FLAGS) $(OBJS) -o $(NAME)
-	
-bonus:
-	@$(MAKE) --no-print-directory NAME="$(NAME_B)" SRCS="$(SRCS_B)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(INCL) Makefile
 	$(CC) $(CC_FLAGS) -c $< -o $@
 
 clean:
-	@echo "\n${BIRed}Project binary deletion...${NC}"
+	@ echo "\n${BIRed}Project binary deletion...${NC}"
 	rm -rf $(OBJS_DIR)
 
 fclean:
-	@echo "\n${BIRed}Project deletion...${NC}"
+	@ echo "\n${BIRed}Project deletion...${NC}"
 	rm -rf $(OBJS_DIR)
 	rm -f $(NAME) $(NAME_B)
 

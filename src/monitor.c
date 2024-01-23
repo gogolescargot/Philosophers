@@ -32,13 +32,6 @@ bool	check_full(t_data *data)
 	return (true);
 }
 
-void	update_end(t_data *data)
-{
-	pthread_mutex_lock(&data->m_end);
-	data->end = true;
-	pthread_mutex_unlock(&data->m_end);
-}
-
 bool	check_dead(t_philo *philo)
 {
 	bool	dead;

@@ -35,7 +35,7 @@ void	eat(t_philo *philo)
 	update_time(philo);
 	update_meal(philo);
 	print(philo, 1);
-	usleep(philo->data->time_to_eat * 1000);
+	ft_usleep(philo->data->time_to_eat);
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_unlock(philo->r_fork);
@@ -47,7 +47,7 @@ void	eat(t_philo *philo)
 		pthread_mutex_unlock(philo->r_fork);
 	}
 	print(philo, 2);
-	usleep(philo->data->time_to_sleep * 1000);
+	ft_usleep(philo->data->time_to_sleep);
 	print(philo, 3);
 }
 
@@ -65,15 +65,15 @@ void	*life(void *arg)
 	if (philo->data->nbr_philos == 1)
 		return (life_solo(philo), NULL);
 	if (philo->id % 2 == 0)
-		usleep(420);
-	while (!philo->data->end)
+		usleep(500);
+	while (!get_bool(&philo->data->m_end, &philo->data->end))
 	{
 		take_fork(philo);
 		eat(philo);
 		if (philo->data->time_to_eat >= philo->data->time_to_sleep)
 		{
-			usleep((philo->data->time_to_eat
-					- philo->data->time_to_sleep + 1) * 1000);
+			ft_usleep((philo->data->time_to_eat
+					- philo->data->time_to_sleep + 1));
 		}
 	}
 	return (NULL);

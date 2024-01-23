@@ -49,20 +49,23 @@ size_t	get_time(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	update_time(t_philo *philo)
+bool	get_bool(pthread_mutex_t *mutex, bool *src)
 {
-	pthread_mutex_lock(&philo->m_time);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->m_time);
+	bool	ret_val;
+
+	pthread_mutex_lock(mutex);
+	ret_val = *src;
+	pthread_mutex_unlock(mutex);
+	return (ret_val);
 }
 
-void	update_meal(t_philo *philo)
+void	ft_usleep(size_t time)
 {
-	pthread_mutex_lock(&philo->m_meal);
-	philo->eated++;
-	if (philo->eated >= philo->data->nbr_meal)
-		philo->full = true;
-	pthread_mutex_unlock(&philo->m_meal);
+	size_t	start;
+
+	start = get_time();
+	while (get_time() < start + time)
+		usleep(500);
 }
 
 void	print(t_philo *philo, int message)
@@ -70,7 +73,7 @@ void	print(t_philo *philo, int message)
 	size_t	time;
 
 	time = get_time();
-	if (philo->data->end)
+	if (get_bool(&philo->data->m_end, &philo->data->end))
 		return ;
 	pthread_mutex_lock(&philo->data->m_print);
 	printf("%zu %d ", time - philo->data->start_time, philo->id);

@@ -25,16 +25,6 @@ bool	check_param(char **argv)
 	return (true);
 }
 
-void	destroy(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->nbr_philos)
-		pthread_mutex_destroy(&data->philos->l_fork);
-	free(data->philos);
-}
-
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -44,6 +34,8 @@ int	main(int argc, char **argv)
 	if (!check_param(argv))
 		return (printf("Error: Incorrect parameter\n"), 1);
 	init_data(&data, argv);
-	destroy(&data);
+	if (check_full(&data))
+		printf("%zu %d everyone is full\n", get_time() - data.start_time, 0);
+	free(data.philos);
 	return (0);
 }

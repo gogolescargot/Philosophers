@@ -65,9 +65,13 @@ void	eat(t_philo *philo);
 void	take_fork(t_philo *philo);
 
 int		ft_atoi(const char *nptr);
+void	ft_usleep(size_t time);
 size_t	get_time(void);
+bool	get_bool(pthread_mutex_t *mutex, bool *src);
+void	print(t_philo *philo, int message);
+
 void	update_time(t_philo *philo);
 void	update_meal(t_philo *philo);
-void	print(t_philo *philo, int message);
+void	update_end(t_data *data);
 
 #endif
