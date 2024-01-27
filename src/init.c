@@ -17,6 +17,8 @@ void	init_philos(t_data *data)
 	int	i;
 
 	data->philos = malloc(sizeof(t_philo) * (data->nbr_philos));
+	if (!data->philos)
+		return ;
 	i = -1;
 	while (++i < data->nbr_philos)
 	{

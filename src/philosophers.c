@@ -34,8 +34,8 @@ int	main(int argc, char **argv)
 	if (!check_param(argv))
 		return (printf("Error: Incorrect parameter\n"), 1);
 	init_data(&data, argv);
-	if (check_full(&data))
-		printf("%zu %d everyone is full\n", get_time() - data.start_time, 0);
+	if (!data.philos)
+		return (printf("Malloc error\n"), 1);
 	free(data.philos);
 	return (0);
 }
