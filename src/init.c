@@ -12,6 +12,16 @@
 
 #include "../inc/philosophers.h"
 
+void	wait_philos(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->nbr_philos)
+		pthread_join(data->philos[i].thread, NULL);
+	pthread_join(data->monitor, NULL);
+}
+
 void	init_philos(t_data *data)
 {
 	int	i;
@@ -36,10 +46,7 @@ void	init_philos(t_data *data)
 		pthread_create(&(data->philos[i].thread), NULL, life, &data->philos[i]);
 	}
 	pthread_create(&(data->monitor), NULL, monitor, data);
-	i = -1;
-	while (++i < data->nbr_philos)
-		pthread_join(data->philos[i].thread, NULL);
-	pthread_join(data->monitor, NULL);
+	wait_philos(data);
 }
 
 void	init_data(t_data *data, char **argv)
