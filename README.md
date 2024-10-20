@@ -27,5 +27,5 @@ make re
 # Start (4 mandatory arguments and 1 optionnal argument)
 # Arguments : Number Philosophers, Time to Die in ms, Time to Eat in ms, Time to Sleep in ms, (Max Meal Number)
 # Min: 1, Max: INT_MAX
-./philo 3 200 200 200 10
+./philo 3 610 200 80 10
 ```
